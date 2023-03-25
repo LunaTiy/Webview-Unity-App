@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "872803588649",
+    "project_id": "webview-unity-c11dd",
+    "storage_bucket": "webview-unity-c11dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872803588649:android:8ab1485e8bcf045fae1a38",
+        "android_client_info": {
+          "package_name": "com.LunaTiy.WebviewUnity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872803588649-m004449v3eo1hf4tbghc8nmgpe1qmqhv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1mw6LOvRx7rarGC2-I259SHbHtMvSxAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "872803588649-m004449v3eo1hf4tbghc8nmgpe1qmqhv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
