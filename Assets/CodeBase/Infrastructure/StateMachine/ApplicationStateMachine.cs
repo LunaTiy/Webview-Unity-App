@@ -5,37 +5,55 @@ using CodeBase.Infrastructure.Services.Firebase;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
 using CodeBase.Infrastructure.StateMachine.States;
+using CodeBase.Infrastructure.StateMachine.States.Interfaces;
 
 namespace CodeBase.Infrastructure.StateMachine
 {
     public class ApplicationStateMachine : IStateMachine
     {
-        private readonly Dictionary<Type, IState> _states;
-        private IState _activeState;
+        private readonly Dictionary<Type, IExitableState> _states;
+        private IExitableState _activeState;
 
         public ApplicationStateMachine(SceneLoader sceneLoader, ServiceLocator serviceLocator)
         {
-            _states = new Dictionary<Type, IState>
+            _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, serviceLocator),
                 [typeof(LoadSavedDataState)] = new LoadSavedDataState(this,
                     ServiceLocator.GetService<IPersistentSavedDataService>(),
                     ServiceLocator.GetService<ISaveLoadService>()),
-                [typeof(ReadRemoteDataState)] = new ReadRemoteDataState(ServiceLocator.GetService<IFirebaseInitializer>(),
+                [typeof(ReadRemoteDataState)] = new ReadRemoteDataState(this, ServiceLocator.GetService<IFirebaseInitializer>(),
                     ServiceLocator.GetService<ISaveLoadService>(),
                     ServiceLocator.GetService<IPersistentSavedDataService>()),
-                [typeof(LoadLevelState)] = new LoadLevelState(),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader),
+                [typeof(PlugState)] = new PlugState(),
+                [typeof(WebviewState)] = new WebviewState()
             };
         }
 
-        public void Enter<TState>() where TState : IState
+        public void Enter<TState>() where TState : class, IState
+        {
+            IState state = ChangeState<TState>();
+            state.Enter();
+        }
+
+        public void Enter<TState, TPayload>(TPayload payload) where TState : class, IPayloadState<TPayload>
+        {
+            IPayloadState<TPayload> state = ChangeState<TState>();
+            state.Enter(payload);
+        }
+
+        private TState ChangeState<TState>() where TState : class, IExitableState
         {
             _activeState?.Exit();
 
-            IState state = _states[typeof(TState)];
+            TState state = GetState<TState>();
             _activeState = state;
             
-            state.Enter();
+            return state;
         }
+
+        private TState GetState<TState>() where TState : class, IExitableState => 
+            _states[typeof(TState)] as TState;
     }
 }

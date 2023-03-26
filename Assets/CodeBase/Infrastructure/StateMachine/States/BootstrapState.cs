@@ -2,6 +2,7 @@
 using CodeBase.Infrastructure.Services.Firebase;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
+using CodeBase.Infrastructure.StateMachine.States.Interfaces;
 
 namespace CodeBase.Infrastructure.StateMachine.States
 {

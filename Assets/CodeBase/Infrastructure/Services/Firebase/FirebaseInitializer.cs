@@ -35,7 +35,7 @@ namespace CodeBase.Infrastructure.Services.Firebase
             
             if (!InitializedAndFetched)
             {
-                Debug.Log("Firebase isn't initialized or fetched");
+                Debug.Log("Firebase not initialized or fetched");
                 return false;
             }
 
