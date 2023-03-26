@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CodeBase.Infrastructure.Services;
 
-namespace CodeBase.Infrastructure.Di
+namespace CodeBase.Infrastructure.Container
 {
     public class ServiceLocator
     {

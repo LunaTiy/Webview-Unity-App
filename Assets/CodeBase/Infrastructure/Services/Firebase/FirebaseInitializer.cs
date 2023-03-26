@@ -5,22 +5,26 @@ using UnityEngine;
 
 namespace CodeBase.Infrastructure.Services.Firebase
 {
-    public class FirebaseProvider : IFirebaseProvider
+    public class FirebaseInitializer : IFirebaseInitializer
     {
         private DependencyStatus _status = DependencyStatus.UnavailableDisabled;
         private bool _initialized;
         private bool _fetched;
 
         private FirebaseRemoteConfig FirebaseRemoteConfig { get; set; }
-
-        public void InitializeFirebase()
+        private bool InitializedAndFetched => _initialized && _fetched;
+        
+        public async Task Initialize()
         {
+            if (InitializedAndFetched)
+                return;
+            
             _status = FirebaseApp.CheckDependenciesAsync().Result;
 
             if (!TryFixDependencies())
                 return;
 
-            FetchAndActiveRemoteConfig();
+            await FetchAndActiveRemoteConfig();
 
             _initialized = true;
         }
@@ -29,9 +33,9 @@ namespace CodeBase.Infrastructure.Services.Firebase
         {
             url = string.Empty;
             
-            if (!_initialized && !_fetched)
+            if (!InitializedAndFetched)
             {
-                Debug.Log("Firebase isn't initialized");
+                Debug.Log("Firebase isn't initialized or fetched");
                 return false;
             }
 
@@ -54,10 +58,13 @@ namespace CodeBase.Infrastructure.Services.Firebase
             return false;
         }
 
-        private void FetchAndActiveRemoteConfig()
+        private async Task FetchAndActiveRemoteConfig()
         {
             FirebaseRemoteConfig = FirebaseRemoteConfig.DefaultInstance;
-            FirebaseRemoteConfig.FetchAndActivateAsync().ContinueWith(OnActiveRemoteConfig);
+            
+            // TODO: clear prev values
+            
+            await FirebaseRemoteConfig.FetchAndActivateAsync().ContinueWith(OnActiveRemoteConfig);
         }
 
         private void OnActiveRemoteConfig(Task<bool> task)

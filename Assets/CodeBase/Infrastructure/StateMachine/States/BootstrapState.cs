@@ -1,4 +1,4 @@
-﻿using CodeBase.Infrastructure.Di;
+﻿using CodeBase.Infrastructure.Container;
 using CodeBase.Infrastructure.Services.Firebase;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
@@ -7,6 +7,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
 {
     public class BootstrapState : IState
     {
+        private const string InitialScene = "Initial";
         private readonly IStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -19,11 +20,9 @@ namespace CodeBase.Infrastructure.StateMachine.States
         }
 
         public void Enter() =>
-            _sceneLoader.Load("Initial", OnLoaded);
+            _sceneLoader.Load(InitialScene, OnLoaded);
 
-        public void Exit()
-        {
-        }
+        public void Exit() { }
 
         private void OnLoaded() =>
             _stateMachine.Enter<LoadSavedDataState>();
@@ -33,7 +32,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             serviceLocator.RegisterSingle<IPersistentSavedDataService>(new PersistentSavedDataService());
             serviceLocator.RegisterSingle<ISaveLoadService>(
                 new SaveLoadService(ServiceLocator.GetService<IPersistentSavedDataService>()));
-            serviceLocator.RegisterSingle<IFirebaseProvider>(new FirebaseProvider());
+            serviceLocator.RegisterSingle<IFirebaseInitializer>(new FirebaseInitializer());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using CodeBase.Infrastructure.Data;
+﻿using CodeBase.Data;
 
 namespace CodeBase.Infrastructure.Services.SaveLoad
 {

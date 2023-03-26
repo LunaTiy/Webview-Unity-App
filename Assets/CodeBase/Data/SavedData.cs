@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeBase.Infrastructure.Data
+namespace CodeBase.Data
 {
     [Serializable]
     public class SavedData
