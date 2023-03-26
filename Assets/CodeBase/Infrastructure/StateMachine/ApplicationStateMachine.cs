@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodeBase.Infrastructure.Di;
+using CodeBase.Infrastructure.Services.Firebase;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
 using CodeBase.Infrastructure.StateMachine.States;
@@ -20,7 +21,7 @@ namespace CodeBase.Infrastructure.StateMachine
                 [typeof(LoadSavedDataState)] = new LoadSavedDataState(this,
                     ServiceLocator.GetService<IPersistentSavedDataService>(),
                     ServiceLocator.GetService<ISaveLoadService>()),
-                [typeof(ReadRemoteDataState)] = new ReadRemoteDataState(),
+                [typeof(ReadRemoteDataState)] = new ReadRemoteDataState(ServiceLocator.GetService<IFirebaseProvider>()),
                 [typeof(LoadLevelState)] = new LoadLevelState(),
             };
         }

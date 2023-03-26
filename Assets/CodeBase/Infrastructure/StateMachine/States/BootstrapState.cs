@@ -1,4 +1,5 @@
 ﻿using CodeBase.Infrastructure.Di;
+using CodeBase.Infrastructure.Services.Firebase;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
 
@@ -32,6 +33,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
             serviceLocator.RegisterSingle<IPersistentSavedDataService>(new PersistentSavedDataService());
             serviceLocator.RegisterSingle<ISaveLoadService>(
                 new SaveLoadService(ServiceLocator.GetService<IPersistentSavedDataService>()));
+            serviceLocator.RegisterSingle<IFirebaseProvider>(new FirebaseProvider());
         }
     }
 }
