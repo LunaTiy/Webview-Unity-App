@@ -5,7 +5,7 @@ namespace CodeBase.Inputs
 {
     public class InputBackReader : MonoBehaviour
     {
-        [SerializeField] private SampleWebView _sampleWebview;
+        [SerializeField] private WebviewProvider _sampleWebview;
 
         private WebViewObject _webView;
         private bool _initialized;

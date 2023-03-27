@@ -29,7 +29,7 @@ using UnityEngine.UI;
 
 namespace CodeBase.Webview
 {
-    public class SampleWebView : MonoBehaviour
+    public class WebviewProvider : MonoBehaviour
     {
         public event Action<WebViewObject> WebviewInitialized;
 
