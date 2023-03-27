@@ -42,100 +42,8 @@ namespace CodeBase.Webview
 
         private IEnumerator Start()
         {
-            _webView = new GameObject("WebViewObject").AddComponent<WebViewObject>();
-
-            _webView.Init(
-                (msg) =>
-                {
-                    Debug.Log($"CallFromJS[{msg}]");
-                    status.text = msg;
-                    status.GetComponent<Animation>().Play();
-                },
-                (msg) =>
-                {
-                    Debug.Log($"CallOnError[{msg}]");
-                    status.text = msg;
-                    status.GetComponent<Animation>().Play();
-                },
-                (msg) =>
-                {
-                    Debug.Log($"CallOnHttpError[{msg}]");
-                    status.text = msg;
-                    status.GetComponent<Animation>().Play();
-                },
-                started: (msg) => { Debug.Log($"CallOnStarted[{msg}]"); },
-                hooked: (msg) => { Debug.Log($"CallOnHooked[{msg}]"); },
-                cookies: (msg) => { Debug.Log($"CallOnCookies[{msg}]"); },
-                ld: (msg) =>
-                {
-                    Debug.Log($"CallOnLoaded[{msg}]");
-#if UNITY_EDITOR_OSX || (!UNITY_ANDROID && !UNITY_WEBPLAYER && !UNITY_WEBGL)
-                // NOTE: depending on the situation, you might prefer
-                // the 'iframe' approach.
-                // cf. https://github.com/gree/unity-webview/issues/189
-#if true
-                webViewObject.EvaluateJS(@"
-                  if (window && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.unityControl) {
-                    window.Unity = {
-                      call: function(msg) {
-                        window.webkit.messageHandlers.unityControl.postMessage(msg);
-                      }
-                    }
-                  } else {
-                    window.Unity = {
-                      call: function(msg) {
-                        window.location = 'unity:' + msg;
-                      }
-                    }
-                  }
-                ");
-#else
-                webViewObject.EvaluateJS(@"
-                  if (window && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.unityControl) {
-                    window.Unity = {
-                      call: function(msg) {
-                        window.webkit.messageHandlers.unityControl.postMessage(msg);
-                      }
-                    }
-                  } else {
-                    window.Unity = {
-                      call: function(msg) {
-                        var iframe = document.createElement('IFRAME');
-                        iframe.setAttribute('src', 'unity:' + msg);
-                        document.documentElement.appendChild(iframe);
-                        iframe.parentNode.removeChild(iframe);
-                        iframe = null;
-                      }
-                    }
-                  }
-                ");
-#endif
-#elif UNITY_WEBPLAYER || UNITY_WEBGL
-                webViewObject.EvaluateJS(
-                    "window.Unity = {" +
-                    "   call:function(msg) {" +
-                    "       parent.unityWebView.sendMessage('WebViewObject', msg)" +
-                    "   }" +
-                    "};");
-#endif
-                    _webView.EvaluateJS(@"Unity.call('ua=' + navigator.userAgent)");
-                }
-                //transparent: false,
-                //zoom: true,
-                //ua: "custom user agent string",
-                //radius: 0,  // rounded corner radius in pixel
-                //// android
-                //androidForceDarkMode: 0,  // 0: follow system setting, 1: force dark off, 2: force dark on
-                //// ios
-                //enableWKWebView: true,
-                //wkContentMode: 0,  // 0: recommended, 1: mobile, 2: desktop
-                //wkAllowsLinkPreview: true,
-                //// editor
-                //separated: false
-            );
+            InitializeWebview();
             
-            WebviewInitialized?.Invoke(_webView);
-
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         webViewObject.bitmapRefreshCycle = 1;
 #endif
@@ -271,6 +179,103 @@ namespace CodeBase.Webview
             if (GUI.Button(new Rect(x, 10, 80, 80), "E")) _webView.SetInteractionEnabled(true);
 
             x += 90;
+        }
+
+        private void InitializeWebview()
+        {
+            _webView = new GameObject("WebViewObject").AddComponent<WebViewObject>();
+
+            _webView.Init(
+                (msg) =>
+                {
+                    Debug.Log($"CallFromJS[{msg}]");
+                    status.text = msg;
+                    status.GetComponent<Animation>().Play();
+                },
+                (msg) =>
+                {
+                    Debug.Log($"CallOnError[{msg}]");
+                    status.text = msg;
+                    status.GetComponent<Animation>().Play();
+                },
+                (msg) =>
+                {
+                    Debug.Log($"CallOnHttpError[{msg}]");
+                    status.text = msg;
+                    status.GetComponent<Animation>().Play();
+                },
+                started: (msg) => { Debug.Log($"CallOnStarted[{msg}]"); },
+                hooked: (msg) => { Debug.Log($"CallOnHooked[{msg}]"); },
+                cookies: (msg) => { Debug.Log($"CallOnCookies[{msg}]"); },
+                ld: (msg) =>
+                {
+                    Debug.Log($"CallOnLoaded[{msg}]");
+#if UNITY_EDITOR_OSX || (!UNITY_ANDROID && !UNITY_WEBPLAYER && !UNITY_WEBGL)
+                // NOTE: depending on the situation, you might prefer
+                // the 'iframe' approach.
+                // cf. https://github.com/gree/unity-webview/issues/189
+#if true
+                webViewObject.EvaluateJS(@"
+                  if (window && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.unityControl) {
+                    window.Unity = {
+                      call: function(msg) {
+                        window.webkit.messageHandlers.unityControl.postMessage(msg);
+                      }
+                    }
+                  } else {
+                    window.Unity = {
+                      call: function(msg) {
+                        window.location = 'unity:' + msg;
+                      }
+                    }
+                  }
+                ");
+#else
+                webViewObject.EvaluateJS(@"
+                  if (window && window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.unityControl) {
+                    window.Unity = {
+                      call: function(msg) {
+                        window.webkit.messageHandlers.unityControl.postMessage(msg);
+                      }
+                    }
+                  } else {
+                    window.Unity = {
+                      call: function(msg) {
+                        var iframe = document.createElement('IFRAME');
+                        iframe.setAttribute('src', 'unity:' + msg);
+                        document.documentElement.appendChild(iframe);
+                        iframe.parentNode.removeChild(iframe);
+                        iframe = null;
+                      }
+                    }
+                  }
+                ");
+#endif
+#elif UNITY_WEBPLAYER || UNITY_WEBGL
+                webViewObject.EvaluateJS(
+                    "window.Unity = {" +
+                    "   call:function(msg) {" +
+                    "       parent.unityWebView.sendMessage('WebViewObject', msg)" +
+                    "   }" +
+                    "};");
+#endif
+                    _webView.EvaluateJS(@"Unity.call('ua=' + navigator.userAgent)");
+                }
+                //transparent: false,
+                //zoom: true,
+                //ua: "custom user agent string",
+                //radius: 0,  // rounded corner radius in pixel
+                //// android
+                //androidForceDarkMode: 0,  // 0: follow system setting, 1: force dark off, 2: force dark on
+                //// ios
+                //enableWKWebView: true,
+                //wkContentMode: 0,  // 0: recommended, 1: mobile, 2: desktop
+                //wkAllowsLinkPreview: true,
+                //// editor
+                //separated: false
+            );
+            
+            WebviewInitialized?.Invoke(_webView);
         }
     }
 }

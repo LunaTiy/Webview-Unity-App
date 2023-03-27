@@ -10,6 +10,9 @@ namespace CodeBase.Inputs
         private WebViewObject _webView;
         private bool _initialized;
 
+        private void OnEnable() => 
+            _sampleWebview.WebviewInitialized += WebviewInitializedHandler;
+
         private void Update()
         {
             if(!_initialized)
@@ -19,9 +22,6 @@ namespace CodeBase.Inputs
                 if (Input.GetKey(KeyCode.Escape) && _webView.CanGoBack())
                     _webView.GoBack();
         }
-
-        private void OnEnable() => 
-            _sampleWebview.WebviewInitialized += WebviewInitializedHandler;
 
         private void OnDisable() => 
             _sampleWebview.WebviewInitialized -= WebviewInitializedHandler;
