@@ -32,6 +32,16 @@ namespace CodeBase.Logic.Timer
         public void StopTimer() => 
             enabled = false;
 
+        public void Reset()
+        {
+            if (enabled)
+                return;
+
+            _elapsed = new TimeSpan();
+            UpdateText();
+            _isStarted = false;
+        }
+
         private void UpdateText()
         {
             int milliseconds = _elapsed.Milliseconds < 100 ? _elapsed.Milliseconds : _elapsed.Milliseconds / 10;

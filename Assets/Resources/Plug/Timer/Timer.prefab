@@ -486,6 +486,22 @@ PrefabInstance:
       propertyPath: m_TargetGraphic
       value: 
       objectReference: {fileID: 7142445301230483959}
+    - target: {fileID: 4522502085921397019, guid: c0ba2cb6ea293494486f0da45564918c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4788566933708992709}
+    - target: {fileID: 4522502085921397019, guid: c0ba2cb6ea293494486f0da45564918c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4522502085921397019, guid: c0ba2cb6ea293494486f0da45564918c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4522502085921397019, guid: c0ba2cb6ea293494486f0da45564918c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5189420933870905483, guid: c0ba2cb6ea293494486f0da45564918c, type: 3}
       propertyPath: m_Name
       value: Reset
