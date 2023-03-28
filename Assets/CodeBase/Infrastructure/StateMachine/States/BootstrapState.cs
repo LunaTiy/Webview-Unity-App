@@ -3,6 +3,7 @@ using CodeBase.Infrastructure.Services.Firebase;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
 using CodeBase.Infrastructure.StateMachine.States.Interfaces;
+using CodeBase.Logic.Loading;
 
 namespace CodeBase.Infrastructure.StateMachine.States
 {

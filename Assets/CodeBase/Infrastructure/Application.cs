@@ -1,5 +1,6 @@
 ﻿using CodeBase.Infrastructure.Container;
 using CodeBase.Infrastructure.StateMachine;
+using CodeBase.Logic.Loading;
 
 namespace CodeBase.Infrastructure
 {
@@ -8,7 +9,7 @@ namespace CodeBase.Infrastructure
         private readonly ServiceLocator _serviceLocator = new();
         public IStateMachine StateMachine { get; }
 
-        public Application(ICoroutineRunner coroutineRunner) => 
-            StateMachine = new ApplicationStateMachine(new SceneLoader(coroutineRunner), _serviceLocator);
+        public Application(ICoroutineRunner coroutineRunner, LoadingCurtain loadingCurtain) => 
+            StateMachine = new ApplicationStateMachine(new SceneLoader(coroutineRunner), _serviceLocator, loadingCurtain);
     }
 }
