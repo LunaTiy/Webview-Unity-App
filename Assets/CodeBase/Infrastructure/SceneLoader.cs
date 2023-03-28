@@ -15,7 +15,7 @@ namespace CodeBase.Infrastructure
         public void Load(string nextScene, Action onLoaded = null) => 
             _coroutineRunner.StartCoroutine(LoadScene(nextScene, onLoaded));
 
-        private static IEnumerator LoadScene(string nextScene, Action onLoaded)
+        private static IEnumerator LoadScene(string nextScene, Action onLoaded = null)
         {
             if (SceneManager.GetActiveScene().name == nextScene)
             {
@@ -26,7 +26,7 @@ namespace CodeBase.Infrastructure
             AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(nextScene);
 
             while (!loadSceneAsync.isDone)
-                yield break;
+                yield return null;
             
             onLoaded?.Invoke();
         }

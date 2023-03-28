@@ -1,4 +1,5 @@
-﻿using CodeBase.Infrastructure.StateMachine.States.Interfaces;
+﻿using CodeBase.Infrastructure.Services.PersistentProgress;
+using CodeBase.Infrastructure.StateMachine.States.Interfaces;
 using CodeBase.Webview;
 using UnityEngine;
 
@@ -9,9 +10,13 @@ namespace CodeBase.Infrastructure.StateMachine.States
         private const string WebviewProvider = "WebviewProvider";
         
         private readonly ApplicationStateMachine _stateMachine;
+        private readonly IPersistentSavedDataService _savedDataService;
 
-        public WebviewState(ApplicationStateMachine stateMachine) => 
+        public WebviewState(ApplicationStateMachine stateMachine, IPersistentSavedDataService savedDataService)
+        {
             _stateMachine = stateMachine;
+            _savedDataService = savedDataService;
+        }
 
         public void Enter()
         {
@@ -39,7 +44,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
 
         private void InitializeWebview(WebviewProvider webviewProvider)
         {
-            // TODO: Get url and enable webviewProvider
+            webviewProvider.Url = _savedDataService.SavedData.url;
+            webviewProvider.enabled = true;
         }
     }
 }

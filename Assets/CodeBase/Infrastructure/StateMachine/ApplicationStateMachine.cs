@@ -27,7 +27,7 @@ namespace CodeBase.Infrastructure.StateMachine
                     ServiceLocator.GetService<IPersistentSavedDataService>()),
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader),
                 [typeof(PlugState)] = new PlugState(),
-                [typeof(WebviewState)] = new WebviewState(this)
+                [typeof(WebviewState)] = new WebviewState(this, ServiceLocator.GetService<IPersistentSavedDataService>())
             };
         }
 
