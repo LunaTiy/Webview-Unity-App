@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
-  <string name="gcm_defaultSenderId" translatable="false">872803588649</string>
-  <string name="google_storage_bucket" translatable="false">webview-unity-c11dd.appspot.com</string>
-  <string name="project_id" translatable="false">webview-unity-c11dd</string>
-  <string name="google_api_key" translatable="false">AIzaSyB1mw6LOvRx7rarGC2-I259SHbHtMvSxAk</string>
-  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB1mw6LOvRx7rarGC2-I259SHbHtMvSxAk</string>
-  <string name="google_app_id" translatable="false">1:872803588649:android:8ab1485e8bcf045fae1a38</string>
-  <string name="default_web_client_id" translatable="false">872803588649-m004449v3eo1hf4tbghc8nmgpe1qmqhv.apps.googleusercontent.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">951881113642</string>
+  <string name="google_storage_bucket" translatable="false">dsxp-51f80.appspot.com</string>
+  <string name="project_id" translatable="false">dsxp-51f80</string>
+  <string name="google_api_key" translatable="false">AIzaSyD_odacKD9EdPUAuXBngvKlSiELjqZq_ZE</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyD_odacKD9EdPUAuXBngvKlSiELjqZq_ZE</string>
+  <string name="google_app_id" translatable="false">1:951881113642:android:8bf99367c7246942ad2353</string>
+  <string name="default_web_client_id" translatable="false">951881113642-hen2nd48qlt4vetsp4pe83lvbv3prvmi.apps.googleusercontent.com</string>
 </resources>

@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "872803588649",
-    "project_id": "webview-unity-c11dd",
-    "storage_bucket": "webview-unity-c11dd.appspot.com"
+    "project_number": "951881113642",
+    "project_id": "dsxp-51f80",
+    "storage_bucket": "dsxp-51f80.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:872803588649:android:8ab1485e8bcf045fae1a38",
+        "mobilesdk_app_id": "1:951881113642:android:8bf99367c7246942ad2353",
         "android_client_info": {
-          "package_name": "com.LunaTiy.WebviewUnity"
+          "package_name": "xemfon.palyapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "872803588649-m004449v3eo1hf4tbghc8nmgpe1qmqhv.apps.googleusercontent.com",
+          "client_id": "951881113642-hen2nd48qlt4vetsp4pe83lvbv3prvmi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB1mw6LOvRx7rarGC2-I259SHbHtMvSxAk"
+          "current_key": "AIzaSyD_odacKD9EdPUAuXBngvKlSiELjqZq_ZE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "872803588649-m004449v3eo1hf4tbghc8nmgpe1qmqhv.apps.googleusercontent.com",
+              "client_id": "951881113642-hen2nd48qlt4vetsp4pe83lvbv3prvmi.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
