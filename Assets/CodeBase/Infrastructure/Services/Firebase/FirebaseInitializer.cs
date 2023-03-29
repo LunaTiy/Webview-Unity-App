@@ -11,33 +11,38 @@ namespace CodeBase.Infrastructure.Services.Firebase
     public class FirebaseInitializer : IFirebaseInitializer
     {
         private DependencyStatus _status = DependencyStatus.UnavailableDisabled;
+        
+        private bool _correctDependency;
         private bool _initialized;
+        private bool _fetched;
+
+        private bool Initialized => _initialized && _fetched;
 
         private static FirebaseRemoteConfig FirebaseConfig => FirebaseRemoteConfig.DefaultInstance;
 
         public async Task Initialize()
         {
-            await FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+            await FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
             {
                 _status = task.Result;
-                
+
                 if (_status == DependencyStatus.Available)
-                {
-                    InitializeFirebase();
-                    _initialized = true;
-                }
+                    _correctDependency = true;
                 else
-                {
                     Debug.LogError("Could not resolve all Firebase dependencies: " + _status);
-                }
+
+                return Task.CompletedTask;
             });
+
+            if (_correctDependency)
+                await InitializeFirebase();
         }
 
         public bool TryGetUrl(out string url)
         {
             url = string.Empty;
 
-            if (!_initialized)
+            if (!Initialized)
             {
                 Debug.Log("Firebase not initialized or fetched");
                 return false;
@@ -48,29 +53,31 @@ namespace CodeBase.Infrastructure.Services.Firebase
             return !string.IsNullOrEmpty(url);
         }
 
-        private static async Task InitializeFirebase()
+        private async Task InitializeFirebase()
         {
             var defaults = new Dictionary<string, object> { { "url", "" } };
 
             await FirebaseRemoteConfig.DefaultInstance.SetDefaultsAsync(defaults)
-                .ContinueWithOnMainThread(_ =>
+                .ContinueWith(_ =>
                 {
                     Debug.Log("RemoteConfig configured and ready!");
-                    FetchDataAsync();
+                    return Task.CompletedTask;
                 });
+
+            _initialized = true;
+            await FetchDataAsync();
         }
 
-        private static async Task FetchDataAsync()
+        private async Task FetchDataAsync()
         {
             Debug.Log("Fetching data...");
-            Task fetchTask =
-                FirebaseRemoteConfig.DefaultInstance.FetchAsync(
-                    TimeSpan.Zero);
+            Task fetchTask = FirebaseRemoteConfig.DefaultInstance.FetchAsync(TimeSpan.Zero);
 
-            await fetchTask.ContinueWithOnMainThread(FetchComplete);
+            _fetched = true;
+            await FetchComplete(fetchTask);
         }
 
-        private static void FetchComplete(Task fetchTask)
+        private static async Task FetchComplete(Task fetchTask)
         {
             if (fetchTask.IsCanceled)
                 Debug.Log("Fetch canceled.");
@@ -80,15 +87,15 @@ namespace CodeBase.Infrastructure.Services.Firebase
                 Debug.Log("Fetch completed successfully!");
 
             var info = FirebaseRemoteConfig.DefaultInstance.Info;
-            
+
             switch (info.LastFetchStatus)
             {
                 case LastFetchStatus.Success:
-                    FirebaseRemoteConfig.DefaultInstance.ActivateAsync()
+                    await FirebaseRemoteConfig.DefaultInstance.ActivateAsync()
                         .ContinueWithOnMainThread(task =>
                             Debug.Log($"Remote data loaded and ready (last fetch time {info.FetchTime})."));
                     break;
-                
+
                 case LastFetchStatus.Failure:
                     switch (info.LastFetchFailureReason)
                     {
