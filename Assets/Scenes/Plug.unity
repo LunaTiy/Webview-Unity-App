@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &366997136 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3915584440875799816, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
+  m_PrefabInstance: {fileID: 3581079740049657895}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a4cf9e98c0240d394498d8789ef2ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1036485989
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +306,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6154378297099393841, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
+      propertyPath: _lapsController
+      value: 
+      objectReference: {fileID: 366997136}
     - target: {fileID: 6542698839051485469, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
       propertyPath: m_Name
       value: Plug
@@ -402,6 +417,10 @@ PrefabInstance:
     - target: {fileID: 7857993073084665489, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8952787293279139287, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
+      propertyPath: m_Name
+      value: LapsController
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
