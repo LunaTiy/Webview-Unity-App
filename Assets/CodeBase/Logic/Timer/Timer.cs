@@ -6,11 +6,15 @@ namespace CodeBase.Logic.Timer
 {
     public class Timer : MonoBehaviour
     {
+        public event Action<TimerState> StateChanged;
+        
         [SerializeField] private TMP_Text _text;
 
         private DateTime _startTime;
         private TimeSpan _elapsed;
         private bool _isStarted;
+
+        private TimerState state;
 
         private void Update()
         {
@@ -27,10 +31,15 @@ namespace CodeBase.Logic.Timer
 
             _isStarted = true;
             enabled = true;
+
+            ChangeState(TimerState.Start);
         }
 
-        public void StopTimer() => 
+        public void StopTimer()
+        {
+            ChangeState(TimerState.Stop);
             enabled = false;
+        }
 
         public void Reset()
         {
@@ -40,6 +49,17 @@ namespace CodeBase.Logic.Timer
             _elapsed = new TimeSpan();
             UpdateText();
             _isStarted = false;
+        }
+
+        public void StartLap()
+        {
+            
+        }
+
+        private void ChangeState(TimerState newState)
+        {
+            state = newState;
+            StateChanged?.Invoke(state);
         }
 
         private void UpdateText()
