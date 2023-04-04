@@ -1,4 +1,5 @@
 ﻿using System;
+using CodeBase.Data.Diary;
 
 namespace CodeBase.Data
 {
@@ -6,5 +7,6 @@ namespace CodeBase.Data
     public class SavedData
     {
         public string url;
+        public TrainingDiary trainingDiary;
     }
 }
