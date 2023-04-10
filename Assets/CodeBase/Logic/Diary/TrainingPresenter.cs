@@ -1,6 +1,7 @@
 ﻿using CodeBase.Data.Diary;
 using CodeBase.Infrastructure.Container;
 using CodeBase.Infrastructure.Services.PersistentProgress;
+using CodeBase.Infrastructure.Services.SaveLoad;
 using TMPro;
 using UnityEngine;
 
@@ -13,16 +14,22 @@ namespace CodeBase.Logic.Diary
         [SerializeField] private TMP_Text _date;
 
         private IPersistentSavedDataService _persistentSavedDataService;
+        private ISaveLoadService _saveLoadService;
+
         private Training _training;
 
         private TrainingDiary Diary =>
             _persistentSavedDataService.SavedData.trainingDiary;
 
-        private void Construct(IPersistentSavedDataService persistentSavedDataService) =>
+        private void Construct(IPersistentSavedDataService persistentSavedDataService, ISaveLoadService saveLoadService)
+        {
             _persistentSavedDataService = persistentSavedDataService;
+            _saveLoadService = saveLoadService;
+        }
 
         private void Start() =>
-            Construct(ServiceLocator.GetService<IPersistentSavedDataService>());
+            Construct(ServiceLocator.GetService<IPersistentSavedDataService>(),
+                ServiceLocator.GetService<ISaveLoadService>());
 
         public void OpenTraining() =>
             _trainingFactory.ShowTraining(_training, this);
@@ -32,6 +39,7 @@ namespace CodeBase.Logic.Diary
             if (Diary.trainings.Contains(_training))
                 Diary.trainings.Remove(_training);
 
+            _saveLoadService.Save();
             Destroy(gameObject);
         }
 
