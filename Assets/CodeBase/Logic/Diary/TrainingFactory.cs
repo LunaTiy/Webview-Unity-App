@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CodeBase.Data;
 using CodeBase.Data.Diary;
 using CodeBase.Infrastructure.Container;
 using CodeBase.Infrastructure.Services.PersistentProgress;
@@ -41,27 +42,6 @@ namespace CodeBase.Logic.Diary
             Construct(ServiceLocator.GetService<IPersistentSavedDataService>(),
                 ServiceLocator.GetService<ISaveLoadService>());
 
-        public void ShowTraining(Training training, TrainingPresenter trainingPresenter)
-        {
-            _trainingPresenter = trainingPresenter;
-            _training = training;
-            _isCreated = true;
-            
-            if (!gameObject.activeInHierarchy)
-                gameObject.SetActive(true);
-            
-            _exercises.Clear();
-
-            for (int i = training.exercises.Count - 1; i >= 0; i--)
-            {
-                Exercise exercise = training.exercises[i];
-                AddExercise(exercise);
-            }
-
-            _date.text = training.date;
-            _name.text = training.name;
-        }
-
         public void Apply()
         {
             ConfigureData();
@@ -81,6 +61,27 @@ namespace CodeBase.Logic.Diary
             _saveLoadService.Save();
 
             Disable();
+        }
+
+        public void ShowTraining(Training training, TrainingPresenter trainingPresenter)
+        {
+            _trainingPresenter = trainingPresenter;
+            _training = training;
+            _isCreated = true;
+            
+            if (!gameObject.activeInHierarchy)
+                gameObject.SetActive(true);
+            
+            _exercises.Clear();
+
+            for (int i = training.exercises.Count - 1; i >= 0; i--)
+            {
+                Exercise exercise = training.exercises[i];
+                AddExercise(exercise);
+            }
+
+            _date.text = training.date;
+            _name.text = training.name;
         }
 
         public void AddExercise(Exercise exercise)

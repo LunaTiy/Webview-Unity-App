@@ -1,4 +1,6 @@
-﻿using CodeBase.Infrastructure.Container;
+﻿using CodeBase.AssetManagement;
+using CodeBase.Infrastructure.Container;
+using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.Firebase;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
@@ -10,6 +12,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
     public class BootstrapState : IState
     {
         private const string InitialScene = "Initial";
+        
         private readonly IStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -32,6 +35,9 @@ namespace CodeBase.Infrastructure.StateMachine.States
         private static void RegisterServices(ServiceLocator serviceLocator)
         {
             serviceLocator.RegisterSingle<IPersistentSavedDataService>(new PersistentSavedDataService());
+            serviceLocator.RegisterSingle<IAssetProvider>(new AssetProvider());
+            serviceLocator.RegisterSingle<IPlugFactory>(new PlugFactory(
+                ServiceLocator.GetService<IAssetProvider>()));
             serviceLocator.RegisterSingle<ISaveLoadService>(
                 new SaveLoadService(ServiceLocator.GetService<IPersistentSavedDataService>()));
             serviceLocator.RegisterSingle<IFirebaseInitializer>(new FirebaseInitializer());

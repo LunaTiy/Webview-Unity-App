@@ -2290,6 +2290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed9bf07aad3464f8ce7b52f09851b3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _exerciseFactory: {fileID: 486973412803546228}
   _exercisePresenterPrefab: {fileID: 5811919109138697447, guid: 6c77355ffc4cdfb4e8a6e49a47d56439, type: 3}
   _exercisesRoot: {fileID: 6641227664084848591}
   _date: {fileID: 1968352280156114420}
@@ -6757,6 +6758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb258c2623742aca3ca4f058b4dea5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _setFactory: {fileID: 8897194777164886939}
   _setPresenterPrefab: {fileID: 3560828618010534707, guid: 64a4609e3582e26469ee72570abd9d46, type: 3}
   _setsRoot: {fileID: 4160262536975095517}
   _trainingFactory: {fileID: 2065688568308904730}

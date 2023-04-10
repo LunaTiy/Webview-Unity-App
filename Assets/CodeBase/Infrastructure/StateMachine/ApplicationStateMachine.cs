@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CodeBase.Infrastructure.Container;
+using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.Firebase;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
@@ -24,12 +25,16 @@ namespace CodeBase.Infrastructure.StateMachine
                 [typeof(LoadSavedDataState)] = new LoadSavedDataState(this,
                     ServiceLocator.GetService<IPersistentSavedDataService>(),
                     ServiceLocator.GetService<ISaveLoadService>()),
-                [typeof(ReadRemoteDataState)] = new ReadRemoteDataState(this, ServiceLocator.GetService<IFirebaseInitializer>(),
+                [typeof(ReadRemoteDataState)] = new ReadRemoteDataState(this,
+                    ServiceLocator.GetService<IFirebaseInitializer>(),
                     ServiceLocator.GetService<ISaveLoadService>(),
                     ServiceLocator.GetService<IPersistentSavedDataService>()),
-                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, loadingCurtain),
+                [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, loadingCurtain,
+                    ServiceLocator.GetService<IPlugFactory>(),
+                    ServiceLocator.GetService<IPersistentSavedDataService>()),
                 [typeof(PlugState)] = new PlugState(),
-                [typeof(WebviewState)] = new WebviewState(this, ServiceLocator.GetService<IPersistentSavedDataService>())
+                [typeof(WebviewState)] =
+                    new WebviewState(this, ServiceLocator.GetService<IPersistentSavedDataService>())
             };
         }
 
@@ -51,11 +56,11 @@ namespace CodeBase.Infrastructure.StateMachine
 
             TState state = GetState<TState>();
             _activeState = state;
-            
+
             return state;
         }
 
-        private TState GetState<TState>() where TState : class, IExitableState => 
+        private TState GetState<TState>() where TState : class, IExitableState =>
             _states[typeof(TState)] as TState;
     }
 }

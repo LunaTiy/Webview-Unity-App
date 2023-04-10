@@ -21,9 +21,9 @@ namespace CodeBase.Logic.Diary
         public void Load(SavedData savedData)
         {
             List<Training> trainings = savedData.trainingDiary.trainings;
-            
-            for (int i = trainings.Count - 1; i > 0; i--) 
-                Create(trainings[i]);
+
+            foreach (Training training in trainings)
+                Create(training);
         }
 
         private void TrainingCreatedHandler(Training training) => 

@@ -39,6 +39,8 @@ namespace CodeBase.Logic.Diary
         private void DisableScreen()
         {
             ResetInputFields();
+            _isCreated = false;
+            _setPresenter = null;
             gameObject.SetActive(false);
         }
 
