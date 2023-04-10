@@ -18,6 +18,7 @@ namespace CodeBase.Logic.Diary
 
         private ExercisePresenter _exercisePresenter;
         private bool _isCreated;
+        private Exercise _exercise;
 
         public void Apply()
         {
@@ -52,6 +53,7 @@ namespace CodeBase.Logic.Diary
         {
             _exercisePresenter = exercisePresenter;
             _isCreated = true;
+            _exercise = exercise;
             
             if (!gameObject.activeInHierarchy)
                 gameObject.SetActive(true);
@@ -63,6 +65,8 @@ namespace CodeBase.Logic.Diary
                 Set set = exercise.sets[i];
                 AddSet(set);
             }
+
+            _name.text = exercise.name;
         }
 
         private void Disable()
@@ -75,16 +79,23 @@ namespace CodeBase.Logic.Diary
 
         private void ConfigureExercise()
         {
-            Exercise exercise = new()
-            {
-                name = _name.text,
-                sets = _sets
-            };
-
             if (_isCreated)
-                _exercisePresenter.SetExercise(_trainingFactory, exercise, this);
+            {
+                _exercise.name = _name.text;
+                _exercise.sets = _sets;
+                
+                _exercisePresenter.SetExercise(_trainingFactory, _exercise, this);
+            }
             else
+            {
+                Exercise exercise = new()
+                {
+                    name = _name.text,
+                    sets = _sets
+                };
+                
                 _trainingFactory.AddExercise(exercise);
+            }
         }
 
         private void ClearSets()

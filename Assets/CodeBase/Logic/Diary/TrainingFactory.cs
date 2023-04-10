@@ -26,6 +26,7 @@ namespace CodeBase.Logic.Diary
 
         private TrainingPresenter _trainingPresenter;
         private bool _isCreated;
+        private Training _training;
 
         private TrainingDiary Diary =>
             _persistentSavedDataService.SavedData.trainingDiary;
@@ -36,15 +37,14 @@ namespace CodeBase.Logic.Diary
             _saveLoadService = saveLoadService;
         }
 
-        private void Start()
-        {
+        private void Start() =>
             Construct(ServiceLocator.GetService<IPersistentSavedDataService>(),
                 ServiceLocator.GetService<ISaveLoadService>());
-        }
 
         public void ShowTraining(Training training, TrainingPresenter trainingPresenter)
         {
             _trainingPresenter = trainingPresenter;
+            _training = training;
             _isCreated = true;
             
             if (!gameObject.activeInHierarchy)
@@ -57,6 +57,9 @@ namespace CodeBase.Logic.Diary
                 Exercise exercise = training.exercises[i];
                 AddExercise(exercise);
             }
+
+            _date.text = training.date;
+            _name.text = training.name;
         }
 
         public void Apply()
@@ -107,14 +110,11 @@ namespace CodeBase.Logic.Diary
         {
             if (_isCreated)
             {
-                Training training = new()
-                {
-                    date = _date.text,
-                    name = _name.text,
-                    exercises = _exercises
-                };
+                _training.date = _date.text;
+                _training.name = _name.text;
+                _training.exercises = _exercises;
                 
-                _trainingPresenter.SetTraining(training);
+                _trainingPresenter.SetTraining(_training);
             }
             else
             {

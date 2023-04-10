@@ -31,6 +31,9 @@ namespace CodeBase.Logic.Diary
             
             if (!gameObject.activeInHierarchy)
                 gameObject.SetActive(true);
+
+            _reps.text = _set.reps.ToString();
+            _weight.text = _set.weight.ToString();
         }
 
         private void DisableScreen()
