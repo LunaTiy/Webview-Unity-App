@@ -9,11 +9,13 @@ namespace CodeBase.Logic.Diary
         [SerializeField] private TMP_Text _name;
         
         private TrainingFactory _trainingFactory;
+        private ExerciseFactory _exerciseFactory;
         private Exercise _exercise;
 
-        public void SetExercise(TrainingFactory trainingFactory, Exercise exercise)
+        public void SetExercise(TrainingFactory trainingFactory, Exercise exercise, ExerciseFactory exerciseFactory)
         {
             _trainingFactory = trainingFactory;
+            _exerciseFactory = exerciseFactory;
             _exercise = exercise;
             
             UpdateText();
@@ -25,6 +27,9 @@ namespace CodeBase.Logic.Diary
             Destroy(gameObject);
         }
 
+        public void OpenExercise() =>
+            _exerciseFactory.ShowExercise(this, _exercise);
+        
         private void UpdateText() => 
             _name.text = _exercise.name;
     }

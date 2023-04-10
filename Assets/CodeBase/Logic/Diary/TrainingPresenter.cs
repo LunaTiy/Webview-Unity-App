@@ -8,6 +8,7 @@ namespace CodeBase.Logic.Diary
 {
     public class TrainingPresenter : MonoBehaviour
     {
+        [SerializeField] private TrainingFactory _trainingFactory;
         [SerializeField] private TMP_Text _name;
         [SerializeField] private TMP_Text _date;
 
@@ -23,6 +24,9 @@ namespace CodeBase.Logic.Diary
         private void Start() =>
             Construct(ServiceLocator.GetService<IPersistentSavedDataService>());
 
+        public void OpenTraining() =>
+            _trainingFactory.ShowTraining(_training, this);
+
         public void Remove()
         {
             if (Diary.trainings.Contains(_training))
@@ -31,8 +35,11 @@ namespace CodeBase.Logic.Diary
             Destroy(gameObject);
         }
 
-        public void SetTraining(Training training)
+        public void SetTraining(Training training, TrainingFactory trainingFactory = null)
         {
+            if (trainingFactory != null)
+                _trainingFactory = trainingFactory;
+
             _training = training;
             UpdateText();
         }

@@ -13,6 +13,7 @@ namespace CodeBase.Logic.Diary
     {
         public event Action<Training> OnTrainingCreated;
 
+        [SerializeField] private ExerciseFactory _exerciseFactory;
         [SerializeField] private ExercisePresenter _exercisePresenterPrefab;
         [SerializeField] private Transform _exercisesRoot;
 
@@ -22,6 +23,9 @@ namespace CodeBase.Logic.Diary
         private IPersistentSavedDataService _persistentSavedDataService;
         private ISaveLoadService _saveLoadService;
         private List<Exercise> _exercises = new();
+
+        private TrainingPresenter _trainingPresenter;
+        private bool _isCreated;
 
         private TrainingDiary Diary =>
             _persistentSavedDataService.SavedData.trainingDiary;
@@ -38,31 +42,51 @@ namespace CodeBase.Logic.Diary
                 ServiceLocator.GetService<ISaveLoadService>());
         }
 
+        public void ShowTraining(Training training, TrainingPresenter trainingPresenter)
+        {
+            _trainingPresenter = trainingPresenter;
+            _isCreated = true;
+            
+            if (!gameObject.activeInHierarchy)
+                gameObject.SetActive(true);
+            
+            _exercises.Clear();
+
+            for (int i = training.exercises.Count - 1; i >= 0; i--)
+            {
+                Exercise exercise = training.exercises[i];
+                AddExercise(exercise);
+            }
+        }
+
         public void Apply()
         {
             ConfigureData();
             _saveLoadService.Save();
-            
+
             ResetInputArea();
             ClearExercises();
 
-            gameObject.SetActive(false);
+            Disable();
         }
 
         public void Cancel()
         {
             ResetInputArea();
             ClearExercises();
-            gameObject.SetActive(false);
+            
+            _saveLoadService.Save();
+
+            Disable();
         }
 
         public void AddExercise(Exercise exercise)
         {
             _exercises.Add(exercise);
-            
+
             ExercisePresenter exercisePresenter = Instantiate(_exercisePresenterPrefab, _exercisesRoot);
-            exercisePresenter.SetExercise(this, exercise);
-            
+            exercisePresenter.SetExercise(this, exercise, _exerciseFactory);
+
             exercisePresenter.transform.SetSiblingIndex(0);
         }
 
@@ -72,26 +96,45 @@ namespace CodeBase.Logic.Diary
                 _exercises.Remove(exercise);
         }
 
+        private void Disable()
+        {
+            _isCreated = false;
+            _trainingPresenter = null;
+            gameObject.SetActive(false);
+        }
+
         private void ConfigureData()
         {
-            Training training = new()
+            if (_isCreated)
             {
-                date = _date.text,
-                name = _name.text,
-                exercises = _exercises
-            };
+                Training training = new()
+                {
+                    date = _date.text,
+                    name = _name.text,
+                    exercises = _exercises
+                };
+                
+                _trainingPresenter.SetTraining(training);
+            }
+            else
+            {
+                Training training = new()
+                {
+                    date = _date.text,
+                    name = _name.text,
+                    exercises = _exercises
+                };
 
-            Diary.trainings.Add(training);
-            ClearExercises();
-
-            OnTrainingCreated?.Invoke(training);
+                Diary.trainings.Add(training);
+                OnTrainingCreated?.Invoke(training);
+            }
         }
 
         private void ClearExercises()
         {
             int childCount = _exercisesRoot.childCount;
 
-            for (int i = childCount - 2; i != -1; i--) 
+            for (int i = childCount - 2; i != -1; i--)
                 Destroy(_exercisesRoot.GetChild(i).gameObject);
 
             _exercises = new List<Exercise>();

@@ -15,17 +15,20 @@ namespace CodeBase.Logic.Diary
 
         private List<Set> _sets = new();
 
+        private ExercisePresenter _exercisePresenter;
+        private bool _isCreated;
+
         public void Apply()
         {
             ConfigureExercise();
-            DisableScreen();
             ClearSets();
+            Disable();
         }
 
         public void Cancel()
         {
-            DisableScreen();
             ClearSets();
+            Disable();
         }
 
         public void AddSet(Set set)
@@ -44,9 +47,28 @@ namespace CodeBase.Logic.Diary
                 _sets.Remove(set);
         }
 
-        private void DisableScreen()
+        public void ShowExercise(ExercisePresenter exercisePresenter, Exercise exercise)
+        {
+            _exercisePresenter = exercisePresenter;
+            _isCreated = true;
+            
+            if (!gameObject.activeInHierarchy)
+                gameObject.SetActive(true);
+            
+            _sets.Clear();
+
+            for (int i = exercise.sets.Count - 1; i >= 0; i--)
+            {
+                Set set = exercise.sets[i];
+                AddSet(set);
+            }
+        }
+
+        private void Disable()
         {
             ResetInputFields();
+            _exercisePresenter = null;
+            _isCreated = false;
             gameObject.SetActive(false);
         }
 
@@ -58,7 +80,10 @@ namespace CodeBase.Logic.Diary
                 sets = _sets
             };
 
-            _trainingFactory.AddExercise(exercise);
+            if (_isCreated)
+                _exercisePresenter.SetExercise(_trainingFactory, exercise, this);
+            else
+                _trainingFactory.AddExercise(exercise);
         }
 
         private void ClearSets()

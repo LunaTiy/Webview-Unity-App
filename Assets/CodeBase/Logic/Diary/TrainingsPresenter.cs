@@ -20,7 +20,7 @@ namespace CodeBase.Logic.Diary
             TrainingPresenter trainingUi = Instantiate(_trainingPresenterPrefab, _trainingsContentRoot);
             trainingUi.transform.SetSiblingIndex(0);
 
-            trainingUi.SetTraining(training);
+            trainingUi.SetTraining(training, _trainingFactory);
         }
     }
 }
