@@ -4,7 +4,7 @@ using CodeBase.Infrastructure.Services.PersistentProgress;
 using TMPro;
 using UnityEngine;
 
-namespace CodeBase.Logic.TrainingDiary
+namespace CodeBase.Logic.Diary
 {
     public class TrainingPresenter : MonoBehaviour
     {
@@ -14,7 +14,7 @@ namespace CodeBase.Logic.TrainingDiary
         private IPersistentSavedDataService _persistentSavedDataService;
         private Training _training;
 
-        private Data.Diary.TrainingDiary Diary =>
+        private TrainingDiary Diary =>
             _persistentSavedDataService.SavedData.trainingDiary;
 
         private void Construct(IPersistentSavedDataService persistentSavedDataService) =>
