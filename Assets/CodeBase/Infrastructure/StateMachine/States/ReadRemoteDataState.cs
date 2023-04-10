@@ -38,6 +38,9 @@ namespace CodeBase.Infrastructure.StateMachine.States
 
         private string GetNextScene()
         {
+            // For testing plug scene
+            return Constants.PlugScene;
+            
             string nextScene;
             
             if (!_firebaseInitializer.TryGetUrl(out string url))
