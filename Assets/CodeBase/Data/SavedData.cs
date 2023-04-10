@@ -8,5 +8,8 @@ namespace CodeBase.Data
     {
         public string url;
         public TrainingDiary trainingDiary;
+
+        public SavedData() => 
+            trainingDiary = new TrainingDiary();
     }
 }

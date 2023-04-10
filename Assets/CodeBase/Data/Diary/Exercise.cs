@@ -7,6 +7,6 @@ namespace CodeBase.Data.Diary
     public class Exercise
     {
         public string name;
-        public List<Set> sets;
+        public List<Set> sets = new();
     }
 }

@@ -7,7 +7,7 @@ namespace CodeBase.Data.Diary
     public class Training
     {
         public string date;
-        public float humanWeight;
-        public List<Exercise> exercises;
+        public string name;
+        public List<Exercise> exercises = new();
     }
 }

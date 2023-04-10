@@ -6,6 +6,6 @@ namespace CodeBase.Data.Diary
     [Serializable]
     public class TrainingDiary
     {
-        public List<Training> trainings;
+        public List<Training> trainings = new();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CodeBase.Data.Diary;
 using CodeBase.Infrastructure.Container;
 using CodeBase.Infrastructure.Services.PersistentProgress;
@@ -10,12 +11,16 @@ namespace CodeBase.Logic.TrainingDiary
 {
     public class TrainingCreator : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _date;
-        [SerializeField] private TMP_Text _weight;
+        public event Action<Training> OnTrainingCreated;
+
+        [SerializeField] private TMP_InputField _date;
+        [SerializeField] private TMP_InputField _name;
 
         private IPersistentSavedDataService _persistentSavedDataService;
         private ISaveLoadService _saveLoadService;
         private readonly List<Exercise> _exercises = new();
+
+        private Data.Diary.TrainingDiary Diary => _persistentSavedDataService.SavedData.trainingDiary;
 
         private void Construct(IPersistentSavedDataService persistentSavedDataService, ISaveLoadService saveLoadService)
         {
@@ -33,8 +38,7 @@ namespace CodeBase.Logic.TrainingDiary
         {
             ConfigureData();
             ResetInputArea();
-            
-            _exercises.Clear();
+
             gameObject.SetActive(false);
         }
 
@@ -46,18 +50,23 @@ namespace CodeBase.Logic.TrainingDiary
 
         private void ConfigureData()
         {
-            Training training = new() { date = _date.text };
+            Training training = new()
+            {
+                date = _date.text,
+                name =  _name.text,
+                exercises = _exercises
+            };
 
-            if (float.TryParse(_weight.text, out float weight))
-                training.humanWeight = weight;
+            Diary.trainings.Add(training);
+            _exercises.Clear();
 
-            training.exercises = _exercises;
+            OnTrainingCreated?.Invoke(training);
         }
 
         private void ResetInputArea()
         {
             _date.text = string.Empty;
-            _weight.text = string.Empty;
+            _name.text = string.Empty;
         }
     }
 }
