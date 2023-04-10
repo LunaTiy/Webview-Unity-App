@@ -195,6 +195,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a167d97ea2fa8854fb70766508fd95a9, type: 3}
+--- !u!114 &1975617688 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1655778928217244096, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
+  m_PrefabInstance: {fileID: 3581079740049657895}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ae1b39443a41ad8b4c77a943b61a20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1979876517
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,25 +402,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7728667437538737711, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
+      propertyPath: _setFactory
+      value: 
+      objectReference: {fileID: 1975617688}
     - target: {fileID: 8060689682235350704, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8060689682235350704, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8060689682235350704, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 1820
       objectReference: {fileID: 0}
     - target: {fileID: 8060689682235350704, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 960
       objectReference: {fileID: 0}
     - target: {fileID: 8060689682235350704, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -200
       objectReference: {fileID: 0}
     - target: {fileID: 8154155690073243969, guid: 1c903c261d03e1e4eb9121d4b2a95809, type: 3}
       propertyPath: _exerciseFactory

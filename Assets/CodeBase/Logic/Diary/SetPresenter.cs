@@ -10,13 +10,18 @@ namespace CodeBase.Logic.Diary
         [SerializeField] private TMP_Text _weight;
         
         private ExerciseFactory _exerciseFactory;
+        private SetFactory _setFactory;
         private Set _set;
 
-        public void SetTrainingSet(ExerciseFactory exerciseFactory, Set set)
+        public void SetTrainingSet(Set set, ExerciseFactory exerciseFactory = null, SetFactory setFactory = null)
         {
-            _exerciseFactory = exerciseFactory;
-            _set = set;
+            if(exerciseFactory != null)
+                _exerciseFactory = exerciseFactory;
             
+            if(setFactory != null)
+                _setFactory = setFactory;
+            
+            _set = set;
             UpdateText();
         }
 
@@ -25,6 +30,9 @@ namespace CodeBase.Logic.Diary
             _exerciseFactory.RemoveSet(_set);
             Destroy(gameObject);
         }
+
+        public void OpenSet() =>
+            _setFactory.ShowSet(this, _set);
 
         private void UpdateText()
         {

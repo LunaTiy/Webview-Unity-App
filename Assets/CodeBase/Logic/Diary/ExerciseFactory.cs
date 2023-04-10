@@ -7,6 +7,7 @@ namespace CodeBase.Logic.Diary
 {
     public class ExerciseFactory : MonoBehaviour, ITrainingFactory
     {
+        [SerializeField] private SetFactory _setFactory;
         [SerializeField] private SetPresenter _setPresenterPrefab;
         [SerializeField] private Transform _setsRoot;
 
@@ -36,7 +37,7 @@ namespace CodeBase.Logic.Diary
             _sets.Add(set);
 
             SetPresenter setPresenter = Instantiate(_setPresenterPrefab, _setsRoot);
-            setPresenter.SetTrainingSet(this, set);
+            setPresenter.SetTrainingSet(set, this, _setFactory);
 
             setPresenter.transform.SetSiblingIndex(0);
         }

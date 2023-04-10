@@ -9,6 +9,10 @@ namespace CodeBase.Logic.Diary
         [SerializeField] private ExerciseFactory _exerciseFactory;
         [SerializeField] private TMP_InputField _reps;
         [SerializeField] private TMP_InputField _weight;
+        
+        private SetPresenter _setPresenter;
+        private bool _isCreated;
+        private Set _set;
 
         public void Apply()
         {
@@ -19,6 +23,16 @@ namespace CodeBase.Logic.Diary
         public void Cancel() => 
             DisableScreen();
 
+        public void ShowSet(SetPresenter setPresenter, Set set)
+        {
+            _setPresenter = setPresenter;
+            _isCreated = true;
+            _set = set;
+            
+            if (!gameObject.activeInHierarchy)
+                gameObject.SetActive(true);
+        }
+
         private void DisableScreen()
         {
             ResetInputFields();
@@ -27,10 +41,18 @@ namespace CodeBase.Logic.Diary
 
         private void ConfigureSet()
         {
-            Set set = new();
-            ParseValues(set);
-
-            _exerciseFactory.AddSet(set);
+            if (_isCreated)
+            {
+                ParseValues(_set);
+                _setPresenter.SetTrainingSet(_set);
+            }
+            else
+            {
+                Set set = new();
+                ParseValues(set);
+                
+                _exerciseFactory.AddSet(set);
+            }
         }
 
         private void ParseValues(Set set)
