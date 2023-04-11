@@ -14,7 +14,6 @@ The application implements a state machine with two main states:
  1. Application stub. This stub has a training diary and a timer. The application saves data about already completed workouts and exercises locally in PlayerPrefs.
  2. In case of successful reading of the link from the firebase, the application opens the webview state, in which the link from the remote database is opened. In such a situation, the link is saved locally and the saved webview link will be opened on subsequent launches of the application.
 
-
 ## ⚙️ Requirements
 
 Make sure you have the requirements before starting:
