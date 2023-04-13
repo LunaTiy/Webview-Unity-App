@@ -3,6 +3,7 @@ using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
 using CodeBase.Infrastructure.StateMachine.States.Interfaces;
 using CodeBase.Logic.Loading;
+using UnityEngine;
 
 namespace CodeBase.Infrastructure.StateMachine.States
 {
@@ -29,6 +30,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
 
         public void Enter(string nextScene)
         {
+            Debug.Log($"Loading scene: {nextScene}");
+            
             _loadingCurtain.Show();
 
             _nextScene = nextScene;

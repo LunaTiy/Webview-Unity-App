@@ -11,6 +11,8 @@ namespace CodeBase.Infrastructure
         
         private void Start()
         {
+            Debug.Log("Start bootstrapping application");
+            
             _application = new Application(this, Instantiate(_loadingCurtainPrefab));
             _application.StateMachine.Enter<BootstrapState>();
             

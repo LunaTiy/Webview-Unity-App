@@ -49,7 +49,6 @@ namespace CodeBase.Infrastructure.Services.Firebase
             }
 
             url = FirebaseConfig.GetValue(Constants.RemoteUrlKey).StringValue;
-
             return !string.IsNullOrEmpty(url);
         }
 
@@ -71,10 +70,9 @@ namespace CodeBase.Infrastructure.Services.Firebase
         private async Task FetchDataAsync()
         {
             Debug.Log("Fetching data...");
-            Task fetchTask = FirebaseRemoteConfig.DefaultInstance.FetchAsync(TimeSpan.Zero);
+            await FirebaseRemoteConfig.DefaultInstance.FetchAsync().ContinueWith(FetchComplete);
 
             _fetched = true;
-            await FetchComplete(fetchTask);
         }
 
         private static async Task FetchComplete(Task fetchTask)

@@ -2,6 +2,7 @@
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
 using CodeBase.Infrastructure.StateMachine.States.Interfaces;
+using UnityEngine;
 
 namespace CodeBase.Infrastructure.StateMachine.States
 {
@@ -23,6 +24,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
 
         public async void Enter()
         {
+            Debug.Log("Enter read remote data state");
             await _firebaseInitializer.Initialize();
             LoadNext();
         }
@@ -42,10 +44,12 @@ namespace CodeBase.Infrastructure.StateMachine.States
             
             if (!_firebaseInitializer.TryGetUrl(out string url))
             {
+                Debug.Log($"Can't get remote url ({url})");
                 nextScene = Constants.PlugScene;
             }
             else
             {
+                Debug.Log($"Url successfully received: {url}");
                 SaveUrl(url);
                 nextScene = Constants.WebviewScene;
             }
