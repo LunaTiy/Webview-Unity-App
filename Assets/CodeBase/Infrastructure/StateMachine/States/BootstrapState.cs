@@ -30,7 +30,7 @@ namespace CodeBase.Infrastructure.StateMachine.States
         public void Exit() { }
 
         private void OnLoaded() =>
-            _stateMachine.Enter<LoadSavedDataState>();
+            _stateMachine.Enter<CheckDeviceTypeState>();
 
         private static void RegisterServices(ServiceLocator serviceLocator)
         {

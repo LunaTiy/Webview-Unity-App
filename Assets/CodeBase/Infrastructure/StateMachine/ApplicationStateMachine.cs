@@ -22,6 +22,7 @@ namespace CodeBase.Infrastructure.StateMachine
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, serviceLocator),
+                [typeof(CheckDeviceTypeState)] = new CheckDeviceTypeState(this),
                 [typeof(LoadSavedDataState)] = new LoadSavedDataState(this,
                     ServiceLocator.GetService<IPersistentSavedDataService>(),
                     ServiceLocator.GetService<ISaveLoadService>()),
