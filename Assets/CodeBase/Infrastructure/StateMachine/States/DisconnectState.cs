@@ -20,6 +20,8 @@ namespace CodeBase.Infrastructure.StateMachine.States
 
         public void Enter(bool hasUrl)
         {
+            Debug.Log("Enter disconnect state");
+            
             _hasUrl = hasUrl;
             _sceneLoader.Load(Constants.DisconnectScene, OnLoaded);
         }

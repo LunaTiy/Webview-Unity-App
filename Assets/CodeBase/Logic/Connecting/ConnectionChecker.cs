@@ -18,7 +18,8 @@ namespace CodeBase.Logic.Connecting
 
             while (Application.internetReachability == NetworkReachability.NotReachable)
                 yield return waitingTime;
-            
+
+            Debug.Log("Connected to internet");
             InternetConnected?.Invoke();
         }
     }
