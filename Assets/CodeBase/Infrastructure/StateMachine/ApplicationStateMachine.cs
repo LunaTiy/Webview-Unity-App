@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CodeBase.AssetManagement;
 using CodeBase.Infrastructure.Container;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.Firebase;
@@ -22,7 +23,7 @@ namespace CodeBase.Infrastructure.StateMachine
             _states = new Dictionary<Type, IExitableState>
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, serviceLocator),
-                [typeof(CheckDeviceTypeState)] = new CheckDeviceTypeState(this),
+                [typeof(CheckDeviceState)] = new CheckDeviceState(this),
                 [typeof(LoadSavedDataState)] = new LoadSavedDataState(this,
                     ServiceLocator.GetService<IPersistentSavedDataService>(),
                     ServiceLocator.GetService<ISaveLoadService>()),
@@ -35,7 +36,9 @@ namespace CodeBase.Infrastructure.StateMachine
                     ServiceLocator.GetService<IPersistentSavedDataService>()),
                 [typeof(PlugState)] = new PlugState(),
                 [typeof(WebviewState)] =
-                    new WebviewState(this, ServiceLocator.GetService<IPersistentSavedDataService>())
+                    new WebviewState(this, ServiceLocator.GetService<IPersistentSavedDataService>()),
+                [typeof(DisconnectState)] =
+                    new DisconnectState(ServiceLocator.GetService<IAssetProvider>(), sceneLoader)
             };
         }
 

@@ -4,6 +4,7 @@ using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.Firebase;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.SaveLoad;
+using CodeBase.Infrastructure.Services.StateMachine;
 using CodeBase.Infrastructure.StateMachine.States.Interfaces;
 using CodeBase.Logic.Loading;
 
@@ -11,8 +12,6 @@ namespace CodeBase.Infrastructure.StateMachine.States
 {
     public class BootstrapState : IState
     {
-        private const string InitialScene = "Initial";
-        
         private readonly IStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -25,16 +24,17 @@ namespace CodeBase.Infrastructure.StateMachine.States
         }
 
         public void Enter() =>
-            _sceneLoader.Load(InitialScene, OnLoaded);
+            _sceneLoader.Load(Constants.InitialScene, OnLoaded);
 
         public void Exit() { }
 
         private void OnLoaded() =>
-            _stateMachine.Enter<CheckDeviceTypeState>();
+            _stateMachine.Enter<LoadSavedDataState>();
 
-        private static void RegisterServices(ServiceLocator serviceLocator)
+        private void RegisterServices(ServiceLocator serviceLocator)
         {
             serviceLocator.RegisterSingle<IPersistentSavedDataService>(new PersistentSavedDataService());
+            serviceLocator.RegisterSingle<IStateMachineProviderService>(new StateMachineProviderService(_stateMachine));
             serviceLocator.RegisterSingle<IAssetProvider>(new AssetProvider());
             serviceLocator.RegisterSingle<IPlugFactory>(new PlugFactory(
                 ServiceLocator.GetService<IAssetProvider>()));

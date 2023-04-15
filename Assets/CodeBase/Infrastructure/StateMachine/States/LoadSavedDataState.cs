@@ -27,9 +27,11 @@ namespace CodeBase.Infrastructure.StateMachine.States
             _persistentSavedDataService.SavedData = _saveLoadService.Load() ?? new SavedData();
 
             if (string.IsNullOrEmpty(_persistentSavedDataService.SavedData.url))
-                _stateMachine.Enter<ReadRemoteDataState>();
-            else
+                _stateMachine.Enter<CheckDeviceState>();
+            else if (UnityEngine.Application.internetReachability != NetworkReachability.NotReachable)
                 _stateMachine.Enter<LoadLevelState, string>(Constants.WebviewScene);
+            else
+                _stateMachine.Enter<DisconnectState, bool>(true);
         }
 
         public void Exit() { }
