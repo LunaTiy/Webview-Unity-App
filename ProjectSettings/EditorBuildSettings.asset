@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Webview.unity
     guid: 0823b9a2d7dbe2f42a48f35f2597f060
+  - enabled: 1
+    path: Assets/Scenes/Disconnect.unity
+    guid: 3ddfb0bea09e10243b7264a8760e68c0
   m_configObjects: {}
